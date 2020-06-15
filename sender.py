@@ -8,10 +8,8 @@ from time import sleep
 from yagmail.error import YagInvalidEmailAddress, YagConnectionClosed, YagAddressError
 
 
-# SENDER_EMAIL = 'update@4languagetutors.ru'
-SENDER_EMAIL = '4languagetutors'
-SENDER_NAME = 'Ирина Кузнецова (обновление плана ЕГЭ)'
-PASSWORD = 'ihqsgitegpqbuusy'
+SENDER_EMAIL = '**'
+PASSWORD = '***'
 SUBJECT = 'Обновление плана ЕГЭ 2021'
 PLAN_FILE = Path.joinpath(Path.cwd(), 'EGE_2021.zip')
 UNSENDED_FILE = Path.joinpath(Path.cwd(), 'unsended.txt')
@@ -49,7 +47,8 @@ def send_email(receiver_address, id):
         ]
         yag.send(receiver_address, SUBJECT, contents)
         print(f'{id}. Sended to {receiver_address}')
-    except (YagInvalidEmailAddress, YagConnectionClosed, YagAddressError, smtplib.SMTPDataError) as ex:
+    except (YagInvalidEmailAddress, YagConnectionClosed,
+            YagAddressError, smtplib.SMTPDataError, smtplib.SMTPServerDisconnected) as ex:
         print(ex)
         print(f'{id}. Error sending to {receiver_address}')
         with open(UNSENDED_FILE, 'a') as file:
@@ -68,10 +67,8 @@ def emails_reader(file_name='email_list.txt'):
 
 def main():
     emails = emails_reader()
-    for id, email in enumerate(emails[6:]):
-        send_email(email, id+6)
-        # send_email('irene-schmidt@4languagetutors.ru', id+1)
-        # break
+    for id, email in enumerate(emails[514:]):
+        send_email(email, id+514)
         sleep(randrange(5, 20))
 
 
